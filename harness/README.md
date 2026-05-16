@@ -2,6 +2,8 @@
 
 A minimal general-purpose agent harness implementing the best practices from [`report.md`](../report.md).
 
+For a step-by-step testing guide, see **[`TESTING.md`](TESTING.md)**.
+
 ## Setup
 
 ```bash
