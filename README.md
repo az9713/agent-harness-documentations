@@ -2,6 +2,8 @@
 
 A curated collection of 32 articles, papers, talks, and docs on agent harness engineering: the scaffolding of tools, orchestration logic, memory, and execution infrastructure that wraps an LLM to make it capable of completing real-world tasks.
 
+For a synthesized analysis of these sources — covering the core challenges, converging solutions, and 12 distilled best practices — see **[`report.md`](report.md)**.
+
 Sources are grouped by theme. The original flat list lives in [`sources.md`](sources.md).
 
 ---
