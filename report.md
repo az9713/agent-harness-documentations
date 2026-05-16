@@ -4,6 +4,49 @@
 
 ---
 
+## Table of Contents
+
+- [Executive Summary](#executive-summary)
+- [Part I — What Is an Agent Harness?](#part-i--what-is-an-agent-harness)
+- [Part II — The Core Challenges](#part-ii--the-core-challenges)
+  - [1. Context Window Limits and Context Rot](#1-context-window-limits-and-context-rot)
+  - [2. Statelessness and the Shift Problem](#2-statelessness-and-the-shift-problem)
+  - [3. Durability and Failure Recovery](#3-durability-and-failure-recovery)
+  - [4. Long-Running Execution Without Verification](#4-long-running-execution-without-verification)
+  - [5. Multi-Agent Coordination Complexity](#5-multi-agent-coordination-complexity)
+  - [6. Tool Proliferation and Tool Failure](#6-tool-proliferation-and-tool-failure)
+  - [7. Security and Governance](#7-security-and-governance)
+  - [8. Observability Gaps](#8-observability-gaps)
+  - [9. The Scaling Gap: Stage 2 to Stage 3](#9-the-scaling-gap-stage-2-to-stage-3)
+  - [10. Self-Improvement Without Safety Guarantees](#10-self-improvement-without-safety-guarantees)
+- [Part III — The Converging Solutions](#part-iii--the-converging-solutions)
+  - [Solution 1: The Brain / Hands / Session Split](#solution-1-the-brain--hands--session-split)
+  - [Solution 2: Structured State Files as External Memory](#solution-2-structured-state-files-as-external-memory)
+  - [Solution 3: Context Compaction and Dynamic Retrieval](#solution-3-context-compaction-and-dynamic-retrieval)
+  - [Solution 4: Durable Execution Primitives](#solution-4-durable-execution-primitives)
+  - [Solution 5: Generator / Critic Separation](#solution-5-generator--critic-separation)
+  - [Solution 6: Minimal, Specialized Tool Sets](#solution-6-minimal-specialized-tool-sets)
+  - [Solution 7: Multi-Agent Patterns for Parallelism](#solution-7-multi-agent-patterns-for-parallelism)
+  - [Solution 8: Model-Specific Harness Customization](#solution-8-model-specific-harness-customization)
+  - [Solution 9: Dual Measurement — Offline + Online](#solution-9-dual-measurement--offline--online)
+- [Part IV — Best Practices](#part-iv--best-practices)
+  - [1. Externalize all task-critical state](#1-externalize-all-task-critical-state)
+  - [2. Decouple brain from hands from session](#2-decouple-brain-from-hands-from-session)
+  - [3. Never let agents grade their own work](#3-never-let-agents-grade-their-own-work)
+  - [4. Minimize and specialize tool sets](#4-minimize-and-specialize-tool-sets)
+  - [5. Design context management as an engineering discipline](#5-design-context-management-as-an-engineering-discipline)
+  - [6. Decouple the harness from model assumptions](#6-decouple-the-harness-from-model-assumptions)
+  - [7. Specialize agents; resist the generalist reflex](#7-specialize-agents-resist-the-generalist-reflex)
+  - [8. Use tools for stateless work; sub-agents for stateful work](#8-use-tools-for-stateless-work-sub-agents-for-stateful-work)
+  - [9. Implement security as a harness concern, not a prompt concern](#9-implement-security-as-a-harness-concern-not-a-prompt-concern)
+  - [10. Instrument decisions, not just executions](#10-instrument-decisions-not-just-executions)
+  - [11. Stack incremental improvements; avoid big-bang rewrites](#11-stack-incremental-improvements-avoid-big-bang-rewrites)
+  - [12. Treat self-evolving capabilities as a separate engineering concern](#12-treat-self-evolving-capabilities-as-a-separate-engineering-concern)
+- [Part V — Open Problems](#part-v--open-problems)
+- [Sources](#sources)
+
+---
+
 ## Executive Summary
 
 An agent harness is the software infrastructure surrounding an AI model that handles everything except the model's own reasoning: tool execution, state persistence, memory management, orchestration, verification, and security. The central insight shared across this literature is that **the LLM is the smallest and most interchangeable part of a production agent system.**
